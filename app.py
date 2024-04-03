@@ -34,7 +34,7 @@ def enviar_email(request: EmailRequest):
     msg['From'] = usuario_smtp
     msg['To'] = request.destinatario
     msg['Subject'] = request.asunto
-    msg.attach(MIMEText(request.mensaje, 'plain'))
+    msg.attach(MIMEText(request.mensaje, 'hmtl'))
     
     if request.cc:
         msg['Cc'] = ', '.join(request.cc)
