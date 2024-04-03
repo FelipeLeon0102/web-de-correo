@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, jsonify
-#import smtplib
-#from email.mime.multipart import MIMEMultipart
-#from email.mime.text import MIMEText
-#from pydantic import BaseModel
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from pydantic import BaseModel
 #from werkzeug.exceptions import HTTPException
 
 """class EmailRequest(BaseModel):
