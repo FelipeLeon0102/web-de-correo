@@ -3,15 +3,15 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from pydantic import BaseModel
-#from werkzeug.exceptions import HTTPException
+from werkzeug.exceptions import HTTPException
 
-"""class EmailRequest(BaseModel):
+class EmailRequest(BaseModel):
     destinatario: str
     asunto: str
-    mensaje: str"""
+    mensaje: str
 
 app = Flask(__name__)
-"""
+
 # Ruta para enviar correos electrónicos
 @app.route('/enviar-correo', methods=['POST'])
 def enviar_correo():
@@ -43,7 +43,7 @@ def enviar_email(request: EmailRequest):
         server.quit()
     except Exception as e:
         raise HTTPException(status_code=500, description=f"Error al enviar el correo: {e}")  # Utiliza HTTPException para manejar el error HTTP
-"""
+
 
 # rutas
 @app.route('/')
