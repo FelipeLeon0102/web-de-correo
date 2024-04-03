@@ -11,17 +11,17 @@ class EmailRequest(BaseModel):
     mensaje: str
 
 app = Flask(__name__)
-# rutas
-@app.route('/')
-def raiz():
-    titulo = "pagina inicio"
-    return render_template('inicio.html', titulo=titulo)
 
-# ruta para nosotros
-@app.route('/nosotros')
-def nosotros():
-    titulo = "nosotros"
-    return render_template('nosotros.html', titulo=titulo)
+# Ruta para enviar correos electrónicos
+@app.route('/enviar-correo', methods=['POST'])
+def enviar_correo():
+    request_data = request.get_json()
+    try:
+        email_request = EmailRequest(**request_data)
+        enviar_email(email_request)
+        return jsonify({"mensaje": "Correo enviado exitosamente."})
+    except Exception as e:
+        raise HTTPException(status_code=500, description=f"Error al enviar el correo: {e}")  # Utiliza HTTPException para manejar el error HTTP
 
 def enviar_email(request: EmailRequest):
     servidor_smtp = "mail.idicol.com"
@@ -41,9 +41,22 @@ def enviar_email(request: EmailRequest):
         text = msg.as_string()
         server.sendmail(usuario_smtp, request.destinatario, text)
         server.quit()
-        return {"mensaje": "Correo enviado exitosamente."}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error al enviar el correo: {e}")
+        raise HTTPException(status_code=500, description=f"Error al enviar el correo: {e}")  # Utiliza HTTPException para manejar el error HTTP
+
+
+# rutas
+@app.route('/')
+def raiz():
+    titulo = "pagina inicio"
+    return render_template('inicio.html', titulo=titulo)
+
+# ruta para nosotros
+@app.route('/nosotros')
+def nosotros():
+    titulo = "nosotros"
+    return render_template('nosotros.html', titulo=titulo)
+
 
 # bloque de prueba
 if __name__ == "__main__":
