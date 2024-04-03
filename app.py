@@ -5,10 +5,12 @@ from email.mime.text import MIMEText
 from pydantic import BaseModel
 from werkzeug.exceptions import HTTPException
 
-class EmailRequest(BaseModel):
-    destinatario: str
-    asunto: str
-    mensaje: str
+class EmailRequest:
+    def __init__(self, destinatario, asunto, mensaje, cc=None):
+        self.destinatario = destinatario
+        self.asunto = asunto
+        self.mensaje = mensaje
+        self.cc = cc
 
 app = Flask(__name__)
 
@@ -34,12 +36,18 @@ def enviar_email(request: EmailRequest):
     msg['To'] = request.destinatario
     msg['Subject'] = request.asunto
     msg.attach(MIMEText(request.mensaje, 'plain'))
+    
+    if request.cc:
+        msg['Cc'] = ','.join(request.cc)
 
     try:
         server = smtplib.SMTP_SSL(servidor_smtp, puerto_smtp)
         server.login(usuario_smtp, contraseña_smtp)
         text = msg.as_string()
-        server.sendmail(usuario_smtp, request.destinatario, text)
+        destinatarios = [request.destinatario]
+        if request.cc:
+            destinatarios.extend(request.cc)
+        server.sendmail(usuario_smtp, destinatarios, text)
         server.quit()
     except Exception as e:
         raise HTTPException(status_code=500, description=f"Error al enviar el correo: {e}")  # Utiliza HTTPException para manejar el error HTTP
