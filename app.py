@@ -1,14 +1,14 @@
 from flask import Flask, render_template, request, jsonify
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from pydantic import BaseModel
-from werkzeug.exceptions import HTTPException
+#import smtplib
+#from email.mime.multipart import MIMEMultipart
+#from email.mime.text import MIMEText
+#from pydantic import BaseModel
+#from werkzeug.exceptions import HTTPException
 
-class EmailRequest(BaseModel):
+"""class EmailRequest(BaseModel):
     destinatario: str
     asunto: str
-    mensaje: str
+    mensaje: str"""
 
 app = Flask(__name__)
 """
@@ -61,5 +61,3 @@ def nosotros():
 # bloque de prueba
 if __name__ == "__main__":
     app.run(debug=True)
-
-
