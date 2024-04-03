@@ -11,7 +11,7 @@ class EmailRequest(BaseModel):
     mensaje: str
 
 app = Flask(__name__)
-
+"""
 # Ruta para enviar correos electrónicos
 @app.route('/enviar-correo', methods=['POST'])
 def enviar_correo():
@@ -43,7 +43,7 @@ def enviar_email(request: EmailRequest):
         server.quit()
     except Exception as e:
         raise HTTPException(status_code=500, description=f"Error al enviar el correo: {e}")  # Utiliza HTTPException para manejar el error HTTP
-
+"""
 
 # rutas
 @app.route('/')
@@ -62,10 +62,4 @@ def nosotros():
 if __name__ == "__main__":
     app.run(debug=True)
 
-
-
-
-
-
-    
 
